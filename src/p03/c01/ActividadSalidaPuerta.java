@@ -22,7 +22,7 @@ public class ActividadSalidaPuerta implements Runnable{
 
 	@Override
 	public void run() {
-		for (int i = 0; i < NUMSALIDAS; i --) {
+		for (int i = 0; i < NUMSALIDAS; i ++) {
 			try {
 				parque.salirDelParque(puerta);
 				TimeUnit.MILLISECONDS.sleep(new Random().nextInt(5)*1000);

@@ -11,11 +11,15 @@ public class Parque implements IParque{
 	private int maxAforo, minAforo;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
+	private boolean aforoCompletado;
+	
 	
 	public Parque() {	// TODO
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
-		// TODO
+		minAforo = 0;
+		maxAforo = 50;
+		aforoCompletado = false;
 	}
 
 
@@ -39,9 +43,15 @@ public class Parque implements IParque{
 		imprimirInfo(puerta, "Entrada");
 		
 		// TODO
+		// Comprobamos invariante
+		checkInvariante();
 		
 		
 		// TODO
+		if (contadorPersonasTotales == maxAforo) {
+			aforoCompletado = true;
+			notifyAll();
+		}
 		
 	}
 	
@@ -69,7 +79,9 @@ public class Parque implements IParque{
 		// TODO
 		
 		
+		
 		// TODO
+		checkInvariante();
 		
 	}
 	
