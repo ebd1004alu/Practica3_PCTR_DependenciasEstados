@@ -116,16 +116,29 @@ public class Parque implements IParque{
 		
 	}
 
-	protected void comprobarAntesDeEntrar(){	// TODO
+	protected void comprobarAntesDeEntrar() throws InterruptedException{	// TODO
 		//
 		// TODO
 		//
+		//Si esta lleno, espera a que haya salidas
+		while (contadorPersonasTotales ==  maxAforo) {
+			wait();		
+		}
+		//notifica de entrada
+		notifyAll();
+		
+		
 	}
 
-	protected void comprobarAntesDeSalir(){		// TODO
+	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
 		//
 		// TODO
-		//
+		//notifica de salida
+		notifyAll();
+		//para poder salir, tienen que haber personas dentro, espera entradas
+		while (contadorPersonasTotales > 0) {
+			wait();		
+		}
 	}
 
 
