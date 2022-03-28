@@ -8,6 +8,7 @@ public class Parque implements IParque{
 
 	// TODO 
 	private int contadorPersonasTotales;
+	private int maxAforo, minAforo;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
 	
 	
@@ -27,7 +28,8 @@ public class Parque implements IParque{
 		}
 		
 		// TODO
-				
+		//Comprobar precondicion
+		
 		
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;		
@@ -94,7 +96,8 @@ public class Parque implements IParque{
 	
 	protected void checkInvariante() {
 		assert sumarContadoresPuerta() == contadorPersonasTotales : "INV: La suma de contadores de las puertas debe ser igual al valor del contador del parte";
-		// TODO 
+		assert contadorPersonasTotales <= maxAforo: "INV: El numero de personas total debe ser menor o igual al aforo maximo";
+		assert contadorPersonasTotales >= minAforo: "INV: El numero de personas total debe ser mayor o igual al aforo minimo";
 		// TODO
 		
 		
