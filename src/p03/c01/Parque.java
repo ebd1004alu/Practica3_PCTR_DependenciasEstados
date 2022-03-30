@@ -24,7 +24,7 @@ public class Parque implements IParque{
 
 
 	@Override
-	public void entrarAlParque(String puerta){		// TODO
+	public void entrarAlParque(String puerta) throws InterruptedException{		// TODO
 		
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
@@ -57,7 +57,7 @@ public class Parque implements IParque{
 	// TODO Método salirDelParque
 	//
 	@Override
-	public void salirDelParque(String puerta){		// TODO
+	public void salirDelParque(String puerta) throws InterruptedException{		// TODO
 		
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
@@ -65,9 +65,10 @@ public class Parque implements IParque{
 		}
 		
 		// TODO
-				
+		//Comprobar precondicion
+		comprobarAntesDeSalir();		
 		
-		// Aumentamos el contador total y el individual
+		// Dismunuir el contador total y el individual
 		contadorPersonasTotales--;		
 		contadoresPersonasPuerta.put(puerta, contadoresPersonasPuerta.get(puerta)-1);
 		
@@ -75,11 +76,12 @@ public class Parque implements IParque{
 		imprimirInfo(puerta, "Salida");
 		
 		// TODO
-		
+		// Comprobamos invariante
+		checkInvariante();
 		
 		
 		// TODO
-		checkInvariante();
+		
 		
 	}
 	
@@ -127,10 +129,8 @@ public class Parque implements IParque{
 	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
 		//
 		// TODO
-		//notifica de salida
-		notifyAll();
-		//para poder salir, tienen que haber personas dentro, espera entradas
-		while (contadorPersonasTotales > 0) {
+		//Si esta lleno, espera a que haya salidas
+		while (estado == VACIO) {
 			wait();		
 		}
 	}
