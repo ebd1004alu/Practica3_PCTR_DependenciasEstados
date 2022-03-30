@@ -10,8 +10,8 @@ public class Parque implements IParque{
 	private int contadorPersonasTotales;
 	private int maxAforo, minAforo;
 	private Hashtable<String, Integer> contadoresPersonasPuerta;
-	
-	private boolean aforoCompletado;
+	private static final int LLENO  = 0, PARCIAL = 1, VACIO = 2;
+	private int estado;
 	
 	
 	public Parque() {	// TODO
@@ -19,7 +19,7 @@ public class Parque implements IParque{
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		minAforo = 0;
 		maxAforo = 50;
-		aforoCompletado = false;
+		estado = VACIO;
 	}
 
 
@@ -33,6 +33,8 @@ public class Parque implements IParque{
 		
 		// TODO
 		//Comprobar precondicion
+		comprobarAntesDeEntrar();
+		
 		
 		
 		// Aumentamos el contador total y el individual
@@ -48,10 +50,6 @@ public class Parque implements IParque{
 		
 		
 		// TODO
-		if (contadorPersonasTotales == maxAforo) {
-			aforoCompletado = true;
-			notifyAll();
-		}
 		
 	}
 	
@@ -121,13 +119,9 @@ public class Parque implements IParque{
 		// TODO
 		//
 		//Si esta lleno, espera a que haya salidas
-		while (contadorPersonasTotales ==  maxAforo) {
+		while (estado == LLENO) {
 			wait();		
 		}
-		//notifica de entrada
-		notifyAll();
-		
-		
 	}
 
 	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
