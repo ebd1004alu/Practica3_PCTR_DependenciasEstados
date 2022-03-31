@@ -2,10 +2,10 @@ package src.p03.c01;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
-
+/*
+ * Andrea Minguez y Estela Victoria Ballester
+ */
 public class Parque implements IParque{
-
-
 	// TODO 
 	private int contadorPersonasTotales;
 	private int maxAforo, minAforo;
@@ -14,14 +14,13 @@ public class Parque implements IParque{
 	private int estado;
 	
 	
-	public Parque() {	// TODO
+	public Parque(int aforo_max) {	// TODO
 		contadorPersonasTotales = 0;
 		contadoresPersonasPuerta = new Hashtable<String, Integer>();
 		minAforo = 0;
-		maxAforo = 50;
+		maxAforo = aforo_max;
 		estado = VACIO;
 	}
-
 
 	@Override
 	public synchronized void entrarAlParque(String puerta) throws InterruptedException{		// TODO
@@ -51,7 +50,7 @@ public class Parque implements IParque{
 	}
 	
 	// 
-	// TODO Método salirDelParque
+	// TODO MÃ©todo salirDelParque
 	//
 	@Override
 	public synchronized void salirDelParque(String puerta) throws InterruptedException{		// TODO
@@ -112,7 +111,6 @@ public class Parque implements IParque{
 	protected void comprobarAntesDeEntrar() throws InterruptedException{	// TODO
 		//
 		// TODO
-		//
 		//Si esta lleno, espera a que haya salidas
 		while (estado == LLENO) {
 			wait();		
@@ -122,7 +120,7 @@ public class Parque implements IParque{
 	protected void comprobarAntesDeSalir() throws InterruptedException{		// TODO
 		//
 		// TODO
-		//Si esta lleno, espera a que haya salidas
+		//Si esta vacio, espera a que haya entradas
 		while (estado == VACIO) {
 			wait();		
 		}
@@ -140,6 +138,4 @@ public class Parque implements IParque{
 		if (estado != antiguoEstado && antiguoEstado != PARCIAL)
 			notifyAll();
 	}
-
-
 }
