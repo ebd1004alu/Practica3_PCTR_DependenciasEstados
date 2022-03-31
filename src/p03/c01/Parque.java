@@ -24,7 +24,7 @@ public class Parque implements IParque{
 
 
 	@Override
-	public void entrarAlParque(String puerta) throws InterruptedException{		// TODO
+	public synchronized void entrarAlParque(String puerta) throws InterruptedException{		// TODO
 		
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
@@ -34,8 +34,6 @@ public class Parque implements IParque{
 		// TODO
 		//Comprobar precondicion
 		comprobarAntesDeEntrar();
-		
-		
 		
 		// Aumentamos el contador total y el individual
 		contadorPersonasTotales++;		
@@ -48,16 +46,15 @@ public class Parque implements IParque{
 		// Comprobamos invariante
 		checkInvariante();
 		
-		
 		// TODO
-		
+		updateStateNotify();
 	}
 	
 	// 
-	// TODO MÃ©todo salirDelParque
+	// TODO Método salirDelParque
 	//
 	@Override
-	public void salirDelParque(String puerta) throws InterruptedException{		// TODO
+	public synchronized void salirDelParque(String puerta) throws InterruptedException{		// TODO
 		
 		// Si no hay entradas por esa puerta, inicializamos
 		if (contadoresPersonasPuerta.get(puerta) == null){
@@ -79,9 +76,8 @@ public class Parque implements IParque{
 		// Comprobamos invariante
 		checkInvariante();
 		
-		
 		// TODO
-		
+		updateStateNotify();
 		
 	}
 	
@@ -111,9 +107,6 @@ public class Parque implements IParque{
 		assert contadorPersonasTotales <= maxAforo: "INV: El numero de personas total debe ser menor o igual al aforo maximo";
 		assert contadorPersonasTotales >= minAforo: "INV: El numero de personas total debe ser mayor o igual al aforo minimo";
 		// TODO
-		
-		
-		
 	}
 
 	protected void comprobarAntesDeEntrar() throws InterruptedException{	// TODO
@@ -133,6 +126,19 @@ public class Parque implements IParque{
 		while (estado == VACIO) {
 			wait();		
 		}
+	}
+	
+	protected void updateStateNotify() {
+		int antiguoEstado = estado;
+		if (contadorPersonasTotales == 0)
+			estado = VACIO;
+		else
+			if (contadorPersonasTotales == maxAforo)
+				estado = LLENO;
+			else
+				estado = PARCIAL;
+		if (estado != antiguoEstado && antiguoEstado != PARCIAL)
+			notifyAll();
 	}
 
 
